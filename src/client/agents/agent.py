@@ -10,6 +10,18 @@ key = f.readline()
 openai_client = OpenAI(api_key=key)
 
 class Agent:
+    """
+    The class Agent is used for the PokeChat application. The logic is defined in the
+    logic function.
+
+    Usage:
+    - Have a valid api key to openai in the secret_key.txt file
+    - Make a class instance
+    - Use the class function "logic" to run through the agent its logic.
+
+    Output:
+    A string containing the response based on the tools or OpenAI itself.
+    """
     def __init__(self):
         self.client = Client("http://server:80/api/mcp")
 
@@ -27,7 +39,7 @@ class Agent:
             mcp_tools = await self.client.list_tools()
 
         openai_tools = []
-        # Convert MCP tools → OpenAI tools
+    
         for tool in mcp_tools:
             openai_tools.append({
                 "type": "function",
@@ -56,14 +68,13 @@ class Agent:
 
         assistant_message = response.choices[0].message
 
-        # If OpenAI didn't request a tool, just return text
+        # If OpenAI does not return a tool, then return its text
         if not assistant_message.tool_calls:
             return assistant_message.content
 
         tool_call = assistant_message.tool_calls[0]
         tool_name = tool_call.function.name
         arguments = json.loads(tool_call.function.arguments)
-
 
         async with self.client:
             tool_result = await self.client.call_tool(tool_name, arguments)
