@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pokemon Chat</title>
+        <link rel="stylesheet" href="../static/css/base.css">
+    </head>
+
+    <!-- Simple Chatbox -->
+    <body>
+        <div>
+        <div id="Box">
+            <div id="chatHeader">
+                PokeChat
+            </div>
+            <div id="chatBox">
+                <div>
+                    <ul id="messages">
+                    </ul>
+                </div>
+            </div>
+            <div id="chatInput">
+                <form action="" onsubmit="sendMessage(event)">
+                    <input type="text" id="message" autocomplete="off"/>
+                    <button>Send</button>
+                </form>
+            </div>
+        </div>
+        </div>
+
+        <!-- WebSocket creation and connection -->
+        <script>
+            // Handle incoming message
+            var ws = new WebSocket("ws://localhost:8000/ws");
+            ws.onmessage = function(event) {
+                var messages = document.getElementById('messages')
+                var message = document.createElement('li')
+                var content = document.createTextNode(event.data)
+                message.appendChild(content)
+                messages.appendChild(message)
+                chatBox.scrollTop = chatBox.scrollHeight;
+            };
+            // Handle message that needs to be send
+            function sendMessage(event) {
+                // Read Input
+                var input = document.getElementById("message")
+                // Post Input in chat
+                var messages = document.getElementById('messages')
+                var message = document.createElement('li')
+                var content = document.createTextNode(input.value)
+                message.appendChild(content)
+                messages.appendChild(message)
+                chatBox.scrollTop = chatBox.scrollHeight;
+                // Send Input to WebSocket which passes it to Agent
+                ws.send(input.value)
+                input.value = ''
+                event.preventDefault()
+            }
+        </script>
+    </body>
+</html>

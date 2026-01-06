@@ -1,0 +1,20 @@
+services:
+  client:
+    depends_on:
+      - server
+    build:
+      context: ./src/client
+      dockerfile: Dockerfile.client
+    volumes:
+      - ./src/client:/usr/src/app
+    ports:
+      - "8000:80"
+
+  server:
+    build:
+      context: ./src/server
+      dockerfile: Dockerfile.server
+    volumes:
+      - ./src/server:/usr/src/app
+    ports:
+      - "8080:80"

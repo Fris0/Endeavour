@@ -1,0 +1,6 @@
+fastapi[standard]
+fastmcp
+openai
+asyncio
+websockets
+jinja2

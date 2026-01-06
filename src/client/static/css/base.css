@@ -1,0 +1,106 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background-image: url(../images/pokemon-ash-ketchum-charizard-bond-desktop-wallpaper.jpg);
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(5px);
+    
+    position: relative; /* make body a reference for absolute positioning */
+}
+
+/* Centered chat box */
+#Box {
+    width: 400px;
+    height: 500px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    overflow: hidden;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Header */
+#chatHeader {
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    background: #ff3d3d;
+    color: white;
+    font-size: 18px;
+}
+
+/* Chat messages area */
+#chatBox {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto; /* scroll when needed */
+    background: #fafafa;
+}
+
+/* Message list */
+#messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Individual message */
+#messages li {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    background: #e6e6e6;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+/* Input area */
+#chatInput {
+    padding: 10px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+}
+
+/* Form layout */
+#chatInput form {
+    display: flex;
+    gap: 8px;
+}
+
+/* Text input */
+#message {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+}
+
+/* Send button */
+#chatInput button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    background: #ff3d3d;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#chatInput button:hover {
+    background: #e63636;
+}
