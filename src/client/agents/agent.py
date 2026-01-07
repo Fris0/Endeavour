@@ -18,9 +18,6 @@ class Agent:
     - Have a valid api key to openai in the secret_key.txt file
     - Make a class instance
     - Use the class function "logic" to run through the agent its logic.
-
-    Output:
-    A string containing the response based on the tools or OpenAI itself.
     """
     def __init__(self):
         self.client = Client("http://server:80/api/mcp")
