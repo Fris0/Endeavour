@@ -19,8 +19,25 @@ class Agent:
     - Make a class instance
     - Use the class function "logic" to run through the agent its logic.
     """
-    def __init__(self):
+    async def __init__(self):
+        # Make connection server.
         self.client = Client("http://server:80/api/mcp")
+
+        # Get the tools from MCP server.
+        async with self.client:
+            mcp_tools = await self.client.list_tools()
+        
+        self.openai_tools = []
+    
+        for tool in mcp_tools:
+            self.openai_tools.append({
+                "type": "function",
+                "function": {
+                    "name": tool.name,
+                    "description": tool.description or "",
+                    "parameters": tool.inputSchema
+                }
+            })
 
     async def logic(self, message: str) -> str:
         """
@@ -32,20 +49,6 @@ class Agent:
         5. Send result back to OpenAI for final answer
         """
 
-        async with self.client:
-            mcp_tools = await self.client.list_tools()
-
-        openai_tools = []
-    
-        for tool in mcp_tools:
-            openai_tools.append({
-                "type": "function",
-                "function": {
-                    "name": tool.name,
-                    "description": tool.description or "",
-                    "parameters": tool.inputSchema
-                }
-            })
 
         response = openai_client.chat.completions.create(
             model="gpt-4.1-mini",
@@ -59,7 +62,7 @@ class Agent:
                     "content": message
                 }
             ],
-            tools=openai_tools,
+            tools=self.openai_tools,
             tool_choice="auto"
         )
 
